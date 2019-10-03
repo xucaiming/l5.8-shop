@@ -14,7 +14,7 @@ class UserAddress extends Model
         'zip',
         'contact_name',
         'contact_phone',
-        'last_used_at'
+        'last_used_at',
     ];
 
     // 定义 last_used_at 返回一个时间日期对象（Carbon对象）
