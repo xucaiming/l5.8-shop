@@ -10,6 +10,7 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
 
     Route::get('user_address', 'UserAddressController@index')->name('user_address.index');
     Route::get('user_address/create', 'UserAddressController@create')->name('user_address.create');
+    Route::post('user_address', 'UserAddressController@store')->name('user_address.store');
 });
 
 

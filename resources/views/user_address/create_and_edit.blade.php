@@ -21,14 +21,15 @@
                                 @endforeach
                             </ul>
                         </div>
-                @endif
-                <!-- 输出后端报错结束 -->
+                    @endif
+                    <!-- 输出后端报错结束 -->
+
                     <!-- inline-template 代表通过内联方式引入组件 -->
                     <user-addresses-create-and-edit inline-template>
-                        <form class="form-horizontal" role="form">
+                        <form class="form-horizontal" role="form" method="post" action="{{ route('user_address.store') }}">
                             <!-- 引入 csrf token 字段 -->
-                        {{ csrf_field() }}
-                        <!-- 注意这里多了 @change -->
+                            {{ csrf_field() }}
+                            <!-- 注意这里多了 @change -->
                             <select-district @change="onDistrictChanged" inline-template>
                                 <div class="form-group row">
                                     <label class="col-form-label col-sm-2 text-md-right">省市区</label>
