@@ -29,8 +29,12 @@
                                 <td>{{ $address->zip }}</td>
                                 <td>{{ $address->contact_phone }}</td>
                                 <td>
-                                    <button class="btn btn-primary">修改</button>
-                                    <button class="btn btn-danger">删除</button>
+                                    <a class="btn btn-primary" href="{{ route('user_address.edit', ['user_address' => $address->id]) }}">修改</a>
+                                    <form action="{{ route('user_address.destroy', ['user_address' => $address->id]) }}" method="post" style="display: inline-block">
+                                        {{ csrf_field() }}
+                                        {{ method_field('DELETE') }}
+                                        <button class="btn btn-danger" type="submit">删除</button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
