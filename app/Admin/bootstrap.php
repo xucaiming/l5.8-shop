@@ -18,4 +18,9 @@
  *
  */
 
-Encore\Admin\Form::forget(['map', 'editor']);
+//Encore\Admin\Form::forget(['map', 'editor']);
+
+/**
+ * 因为 Laravel-Admin 为了避免加载太多前端静态文件，默认禁用了 editor 这个表单组件，禁用解除
+ */
+Encore\Admin\Form::forget(['map']);
