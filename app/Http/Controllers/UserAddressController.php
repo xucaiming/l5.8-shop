@@ -62,6 +62,7 @@ class UserAddressController extends Controller
 
         $this->authorize('update', $user_address);
         $user_address->delete();
-        return redirect()->route('user_address.index');
+//        return redirect()->route('user_address.index');
+        return [];
     }
 }

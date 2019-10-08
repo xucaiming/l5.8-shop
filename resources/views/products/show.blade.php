@@ -73,6 +73,51 @@
                 $('.product-info .price span').text($(this).data('price'));
                 $('.product-info .stock').text('库存：' + $(this).data('stock') + '件');
             });
+
+            //监听收藏按钮的点击事件
+            $(".btn-favor").click(function(){
+                axios.post('{{ route('products.favor', ['product' => $product->id]) }}')
+                    .then(function(){
+                        swal('操作成功', '', 'success');
+                    }, function(error){
+                        if(error.response && error.response.status === 401){ //如果返回401代表没登录
+                            swal('请先登录', '', 'error');
+                        } else if(error.response && (error.response.data.msg || error.response.data.message)){
+                            // 其他有 msg 或者 message 字段的情况，将 msg 提示给用户
+                            swal(error.response.data.msg ? error.response.data.msg : error.response.data.message, '', 'error');
+                        } else {
+                            swal('系统错误', '', 'error');
+                        }
+                    });
+            });
+
+            // 加入购物车按钮点击事件
+            $(".btn-add-to-cart").click(function(){
+                // console.log($('label.active input[name=skus]').val())
+                // 请求加入购物车接口
+                axios.post('{{ route('cart.add') }}', {
+                    sku_id: $('label.active input[name=skus]').val(),
+                    amount: $(".cart_amount input").val(),
+                })
+                .then(function(){
+                    swal('加入购物车成功！', '', 'success');
+                }, function(error){
+                    if(error.response.status === 401){
+                        swal('请先登录', '', 'error');
+                    } else if (error.response.status === 422){ // 代表用户校验失败
+                        var html = '<div>';
+                        _.each(error.response.data.errors, function(errors){
+                            _.each(errors, function(error){
+                                html += error + '<br>';
+                            })
+                        });
+                        html += '<div>';
+                        swal({content: $(html)[0], icon: 'error'});
+                    } else {
+                        swal('系统错误', '', 'error');
+                    }
+                })
+            });
         });
     </script>
 @endsection

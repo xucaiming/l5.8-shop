@@ -59,4 +59,34 @@ class ProductsController extends Controller
 
         return view('products.show', compact('product'));
     }
+
+    //收藏商品
+    public function favor(Product $product, Request $request)
+    {
+        $user = $request->user();
+
+        // 判断是否已经收藏了此商品
+        if($user->favoriteProducts()->find($product->id)){
+            return [];
+        }
+
+        $user->favoriteProducts()->attach($product);
+        return [];
+    }
+    
+    //取消收藏
+    public function disfavor(Product $product, Request $request)
+    {
+        $user = $request->user();
+        $user->favoriteProducts()->detach($product);
+        return [];
+    }
+    
+    //收藏列表
+    public function favorites(Request $request)
+    {
+        $products = $request->user()->favoriteProducts()->paginate(16);
+
+        return view('products.favorites', compact('products'));
+    }
 }
