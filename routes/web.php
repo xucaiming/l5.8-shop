@@ -42,9 +42,16 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
     Route::get('orders/{order}/review', 'OrdersController@review')->name('orders.review.show');
     Route::post('orders/{order}/review', 'OrdersController@sendReview')->name('orders.review.store');
 
+    // 申请退款
+    Route::post('orders/{order}/apply_refund', 'OrdersController@applyRefund')->name('orders.apply_refund');
+    // 退款回调路由
+    Route::post('payment/wechat/refund_notify', 'PaymentController@wechatRefundNotify')->name('payment.wechat.refund_notify');
+
     Route::get('payment/{order}/alipay', 'PaymentController@payByAlipay')->name('payment.alipay');
     Route::get('payment/alipay/return', 'PaymentController@alipayReturn')->name('payment.alipay.return');
     Route::get('payment/{order}/wechat', 'PaymentController@payByWechat')->name('payment.wechat');
+
+    Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
 
 });
 
