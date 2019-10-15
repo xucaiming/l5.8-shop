@@ -30,6 +30,9 @@ $factory->define(Product::class, function (Faker $faker) {
         'https://img13.360buyimg.com/n7/jfs/t1/27653/36/12572/346766/5c99ef63E81a8de14/5a38e39b2975e837.jpg'
     ]);
 
+    // 从数据库中随机取一个类目
+    $category = \App\Models\Category::query()->where('is_directory', false)->inRandomOrder()->first();
+
     return [
         'title' => $faker->word,
         'description' => $faker->sentence,
@@ -38,6 +41,7 @@ $factory->define(Product::class, function (Faker $faker) {
         'rating' => $faker->numberBetween(0, 5),
         'sold_count' => 0,
         'review_count' => 0,
-        'price' => 0
+        'price' => 0,
+        'category_id'  => $category ? $category->id : null,
     ];
 });
