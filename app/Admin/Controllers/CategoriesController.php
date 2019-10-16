@@ -89,6 +89,7 @@ class CategoriesController extends Controller
     {
         // 用户输入的值通过 q 参数获取
         $search = $request->input('q');
+
         $result = Category::query()
             ->where('is_directory', boolval($request->input('is_directory', true)))  // 由于这里选择的是父类目，因此需要限定 is_directory 为 true
             ->where('name', 'like', '%'.$search.'%')
@@ -98,7 +99,16 @@ class CategoriesController extends Controller
         $result->setCollection($result->getCollection()->map(function (Category $category) {
             return ['id' => $category->id, 'text' => $category->full_name];
         }));
-
         return $result;
+
+//        $result = Category::where('is_directory', boolval($request->input('is_directory', true)))
+//            ->where('name', 'like', '%' . $search . '%')
+//            ->get();
+//
+//        return [
+//            'data' => $result->map(function (Category $category) {
+//                return ['id' => $category->id, 'text' => $category->full_name];
+//            })
+//        ];
     }
 }

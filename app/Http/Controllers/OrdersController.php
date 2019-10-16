@@ -13,6 +13,8 @@ use App\Models\UserAddress;
 use App\Models\Order;
 use App\Http\Requests\SendReviewRequest;
 use Carbon\Carbon;
+use App\Http\Requests\CrowdfundingOrderRequest;
+use App\Models\ProductSku;
 
 class OrdersController extends Controller
 {
@@ -144,5 +146,16 @@ class OrdersController extends Controller
         ]);
 
         return $order;
+    }
+
+    // 众筹商品下单请求
+    public function crowdfunding(CrowdfundingOrderRequest $request, OrderService $orderService)
+    {
+        $user    = $request->user();
+        $sku     = ProductSku::find($request->input('sku_id'));
+        $address = UserAddress::find($request->input('address_id'));
+        $amount  = $request->input('amount');
+
+        return $orderService->crowdfunding($user, $address, $sku, $amount);
     }
 }

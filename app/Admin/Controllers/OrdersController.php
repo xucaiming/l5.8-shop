@@ -12,6 +12,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
 
+
 class OrdersController extends Controller
 {
     use HasResourceActions;
