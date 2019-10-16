@@ -21,7 +21,7 @@
 
 LOCK TABLES `admin_menu` WRITE;
 /*!40000 ALTER TABLE `admin_menu` DISABLE KEYS */;
-INSERT INTO `admin_menu` VALUES (1,0,1,'首页','fa-bar-chart','/',NULL,NULL,'2019-10-15 15:14:20'),(2,0,7,'系统管理','fa-tasks',NULL,NULL,NULL,'2019-10-15 17:48:38'),(3,2,8,'管理员','fa-users','auth/users',NULL,NULL,'2019-10-15 17:48:38'),(4,2,9,'角色','fa-user','auth/roles',NULL,NULL,'2019-10-15 17:48:38'),(5,2,10,'权限','fa-ban','auth/permissions',NULL,NULL,'2019-10-15 17:48:38'),(6,2,11,'菜单','fa-bars','auth/menu',NULL,NULL,'2019-10-15 17:48:38'),(7,2,12,'操作日志','fa-history','auth/logs',NULL,NULL,'2019-10-15 17:48:38'),(8,0,2,'用户管理','fa-users','/users',NULL,'2019-10-15 15:16:13','2019-10-15 15:24:57'),(9,0,5,'订单管理','fa-rmb','/orders',NULL,'2019-10-15 15:18:11','2019-10-15 17:48:38'),(10,0,4,'商品管理','fa-cubes','/products',NULL,'2019-10-15 15:18:24','2019-10-15 17:48:38'),(11,0,6,'优惠券管理','fa-tags','/coupon_codes',NULL,'2019-10-15 15:18:59','2019-10-15 17:48:38'),(12,0,3,'商品分类','fa-bars','/categories',NULL,'2019-10-15 17:48:29','2019-10-15 17:48:38');
+INSERT INTO `admin_menu` VALUES (1,0,1,'首页','fa-bar-chart','/',NULL,NULL,'2019-10-15 15:14:20'),(2,0,9,'系统管理','fa-tasks',NULL,NULL,NULL,'2019-10-16 15:13:37'),(3,2,10,'管理员','fa-users','auth/users',NULL,NULL,'2019-10-16 15:13:37'),(4,2,11,'角色','fa-user','auth/roles',NULL,NULL,'2019-10-16 15:13:37'),(5,2,12,'权限','fa-ban','auth/permissions',NULL,NULL,'2019-10-16 15:13:37'),(6,2,13,'菜单','fa-bars','auth/menu',NULL,NULL,'2019-10-16 15:13:37'),(7,2,14,'操作日志','fa-history','auth/logs',NULL,NULL,'2019-10-16 15:13:37'),(8,0,2,'用户管理','fa-users','/users',NULL,'2019-10-15 15:16:13','2019-10-15 15:24:57'),(9,0,7,'订单管理','fa-rmb','/orders',NULL,'2019-10-15 15:18:11','2019-10-16 15:13:37'),(10,0,4,'商品管理','fa-cubes','/products',NULL,'2019-10-15 15:18:24','2019-10-15 17:48:38'),(11,0,8,'优惠券管理','fa-tags','/coupon_codes',NULL,'2019-10-15 15:18:59','2019-10-16 15:13:37'),(12,0,3,'商品分类','fa-bars','/categories',NULL,'2019-10-15 17:48:29','2019-10-15 17:48:38'),(13,10,6,'众筹商品','fa-flag-checkered','/crowdfunding_products',NULL,'2019-10-16 15:11:30','2019-10-16 15:13:37'),(14,10,5,'普通商品','fa-cubes','/products',NULL,'2019-10-16 15:12:27','2019-10-16 15:13:37');
 /*!40000 ALTER TABLE `admin_menu` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -90,7 +90,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `admin_users` WRITE;
 /*!40000 ALTER TABLE `admin_users` DISABLE KEYS */;
-INSERT INTO `admin_users` VALUES (1,'admin','$2y$10$hFC2weUuvx1xoFkIkM6b6./0Y.QSyHqfSuVhIV1bzMd42mzaBmNMe','Administrator',NULL,'16F9excD9NG8xXQSqMjbEgTrDsOug9e0Jx78lRDeLRVNUxRpaHpWMEQbX3ws','2019-10-15 14:48:48','2019-10-15 14:48:48'),(2,'operator','$2y$10$3vhIatm7mi5fXxeDrYnr8eQmoZRg.qOirnxmFuWTUQc45rHed5MeC','Josh.manager',NULL,'P4Q6KByR1e49sIH7TbRnGysZNa3J30xRTEbg3Wb9PW9zjACHk42kNQ9rv9E9','2019-10-15 15:33:32','2019-10-15 15:33:32');
+INSERT INTO `admin_users` VALUES (1,'admin','$2y$10$hFC2weUuvx1xoFkIkM6b6./0Y.QSyHqfSuVhIV1bzMd42mzaBmNMe','Administrator',NULL,'opNKxwHT3EsRYHqlLoZaWPSjVuV1LZsRMYILAeoXkF3po7nAw5JenMOTC4rU','2019-10-15 14:48:48','2019-10-15 14:48:48'),(2,'operator','$2y$10$3vhIatm7mi5fXxeDrYnr8eQmoZRg.qOirnxmFuWTUQc45rHed5MeC','Josh.manager',NULL,'P4Q6KByR1e49sIH7TbRnGysZNa3J30xRTEbg3Wb9PW9zjACHk42kNQ9rv9E9','2019-10-15 15:33:32','2019-10-15 15:33:32');
 /*!40000 ALTER TABLE `admin_users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -103,4 +103,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-15  9:59:15
+-- Dump completed on 2019-10-16 10:00:32
