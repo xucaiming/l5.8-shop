@@ -232,4 +232,5 @@ return [
     // 订单过期时间（未支付多少秒后自动关闭）
     'order_ttl' => 600,
 
+    'ngrok_url' => env('NGROK_URL'),
 ];

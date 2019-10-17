@@ -22,7 +22,8 @@ class AppServiceProvider extends ServiceProvider
 
             //notify_url 代表服务器端回调地址，return_url 代表前端回调地址
 //            $config['notify_url'] = route('payment.alipay.notify'); // 注意要是公网可以访问的地址
-            $config['notify_url'] = 'http://requestbin.net/r/wkhwn8wk'; // 可在http://requestbin.net模拟接收 然后在转到本地请求
+//            $config['notify_url'] = 'http://requestbin.net/r/wkhwn8wk'; // 可在http://requestbin.net模拟接收 然后在转到本地请求
+            $config['notify_url'] = ngrok_url('payment.alipay.notify'); // 使用ngrok转发
             $config['return_url'] = route('payment.alipay.return');
 
             // 判断当前项目运行环境是否为线上环境
@@ -39,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('wechat_pay', function(){
             $config = config('pay.wechat');
-            $config['notify_url'] = 'http://*****'; // 公网可以访问的地址
+            $config['notify_url'] = ngrok_url('payment.wechat.notify'); // 公网可以访问的地址
             if(app()->environment() !== 'production'){
                 $config['log']['level'] = Logger::DEBUG;
             } else {
