@@ -56,10 +56,18 @@ Route::group(['middleware' => ['auth', 'verified']], function(){
 
     Route::get('coupon_codes/{code}', 'CouponCodesController@show')->name('coupon_codes.show');
 
+    Route::get('installments', 'InstallmentsController@index')->name('installments.index');
+    Route::get('installments/{installment}', 'InstallmentsController@show')->name('installments.show');
+
+    Route::get('installments/{installment}/alipay', 'InstallmentsController@payByAlipay')->name('installments.alipay');
+    Route::get('installments/alipay/return', 'InstallmentsController@alipayReturn')->name('installments.alipay.return');
+
 });
 
+// 后端回调不能放在 auth 中间件中
 Route::post('payment/alipay/notify', 'PaymentController@alipayNotify')->name('payment.alipay.notify');
 Route::post('payment/wechat/notify', 'PaymentController@wechatNotify')->name('payment.wechat.notify');
+Route::post('installments/alipay/notify', 'InstallmentsController@alipayNotify')->name('installments.alipay.notify');
 
 // 避免和路由products/favorites冲突，此路由要后置
 Route::get('products/{product}', 'ProductsController@show')->name('products.show');
