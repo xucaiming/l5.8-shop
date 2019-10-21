@@ -49,35 +49,35 @@
             <!-- 如果订单未发货，展示发货表单 -->
             @if($order->ship_status === \App\Models\Order::SHIP_STATUS_PENDING)
                 @if($order->refund_status !== \App\Models\Order::REFUND_STATUS_SUCCESS &&
-                    ($order->type !== \App\Models\Order::TYPE_CROWDFUNDING ||
-                    $order->items[0]->product->crowdfunding->status === \App\Models\CrowdfundingProduct::STATUS_SUCCESS))
-                <tr>
-                    <td colspan="4">
-                        <form action="{{ route('admin.orders.ship', [$order->id]) }}" method="post" class="form-inline">
-                            <!-- 别忘了 csrf token 字段 -->
-                            {{ csrf_field() }}
-                            <div class="form-group {{ $errors->has('express_company') ? 'has-error' : '' }}">
-                                <label for="express_company" class="control-label">物流公司</label>
-                                <input type="text" id="express_company" name="express_company" value="" class="form-control" placeholder="输入物流公司">
-                                @if($errors->has('express_company'))
-                                    @foreach($errors->get('express_company') as $msg)
-                                        <span class="help-block">{{ $msg }}</span>
-                                    @endforeach
-                                @endif
-                            </div>
-                            <div class="form-group {{ $errors->has('express_no') ? 'has-error' : '' }}">
-                                <label for="express_no" class="control-label">物流单号</label>
-                                <input type="text" id="express_no" name="express_no" value="" class="form-control" placeholder="输入物流单号">
-                                @if($errors->has('express_no'))
-                                    @foreach($errors->get('express_no') as $msg)
-                                        <span class="help-block">{{ $msg }}</span>
-                                    @endforeach
-                                @endif
-                            </div>
-                            <button type="submit" class="btn btn-success" id="ship-btn">发货</button>
-                        </form>
-                    </td>
-                </tr>
+                   ($order->type !== \App\Models\Order::TYPE_CROWDFUNDING ||
+                     $order->items[0]->product->crowdfunding->status === \App\Models\CrowdfundingProduct::STATUS_SUCCESS))
+                    <tr>
+                        <td colspan="4">
+                            <form action="{{ route('admin.orders.ship', [$order->id]) }}" method="post" class="form-inline">
+                                <!-- 别忘了 csrf token 字段 -->
+                                {{ csrf_field() }}
+                                <div class="form-group {{ $errors->has('express_company') ? 'has-error' : '' }}">
+                                    <label for="express_company" class="control-label">物流公司</label>
+                                    <input type="text" id="express_company" name="express_company" value="" class="form-control" placeholder="输入物流公司">
+                                    @if($errors->has('express_company'))
+                                        @foreach($errors->get('express_company') as $msg)
+                                            <span class="help-block">{{ $msg }}</span>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <div class="form-group {{ $errors->has('express_no') ? 'has-error' : '' }}">
+                                    <label for="express_no" class="control-label">物流单号</label>
+                                    <input type="text" id="express_no" name="express_no" value="" class="form-control" placeholder="输入物流单号">
+                                    @if($errors->has('express_no'))
+                                        @foreach($errors->get('express_no') as $msg)
+                                            <span class="help-block">{{ $msg }}</span>
+                                        @endforeach
+                                    @endif
+                                </div>
+                                <button type="submit" class="btn btn-success" id="ship-btn">发货</button>
+                            </form>
+                        </td>
+                    </tr>
                 @endif
             @else
                 <!-- 否则展示物流公司和物流单号 -->
@@ -89,9 +89,7 @@
                 </tr>
             @endif
             <!-- 订单发货结束 -->
-
             @if($order->refund_status !== \App\Models\Order::REFUND_STATUS_PENDING)
-                @if($order->refund_status !== \App\Models\Order::REFUND_STATUS_SUCCESS)
                 <tr>
                     <td>退款状态：</td>
                     <td colspan="2">{{ \App\Models\Order::$refundStatusMap[$order->refund_status] }}，理由：{{ $order->extra['refund_reason'] }}</td>
@@ -103,61 +101,58 @@
                         @endif
                     </td>
                 </tr>
-                @endif
             @endif
-
             </tbody>
         </table>
     </div>
 </div>
 
 <script>
-    $(document).ready(function(){
-        // 不同意按钮的点击事件
-        $("#btn-refund-disagree").click(function(){
+    $(document).ready(function() {
+        // 不同意 按钮的点击事件
+        $('#btn-refund-disagree').click(function() {
             // Laravel-Admin 使用的 SweetAlert 版本与我们在前台使用的版本不一样，因此参数也不太一样
             swal({
-                title: '输入拒绝理由',
+                title: '输入拒绝退款理由',
                 input: 'text',
                 showCancelButton: true,
-                confirmButtonText: '确认',
-                cancelButtonText: '取消',
+                confirmButtonText: "确认",
+                cancelButtonText: "取消",
                 showLoaderOnConfirm: true,
                 preConfirm: function(inputValue) {
                     if (!inputValue) {
-                        swal('理由不能为空', '', 'error');
+                        swal('理由不能为空', '', 'error')
                         return false;
                     }
                     // Laravel-Admin 没有 axios，使用 jQuery 的 ajax 方法来请求
                     return $.ajax({
                         url: '{{ route('admin.orders.handle_refund', [$order->id]) }}',
                         type: 'POST',
-                        data: JSON.stringify({ // 将请求变为json字符串
-                            agree: false, // 拒绝申请
+                        data: JSON.stringify({   // 将请求变成 JSON 字符串
+                            agree: false,  // 拒绝申请
                             reason: inputValue,
-                            // 带上csrf token
+                            // 带上 CSRF Token
                             // Laravel-Admin 页面里可以通过 LA.token 获得 CSRF Token
-                            _token: LA.token
+                            _token: LA.token,
                         }),
-                        contentType: 'application/json', //请求的数据格式为json
+                        contentType: 'application/json',  // 请求的数据格式为 JSON
                     });
                 },
                 allowOutsideClick: false
-            }).then(function(ret){
+            }).then(function (ret) {
                 // 如果用户点击了『取消』按钮，则不做任何操作
-                if(ret.dismiss === 'cancel'){
+                if (ret.dismiss === 'cancel') {
                     return;
                 }
                 swal({
                     title: '操作成功',
                     type: 'success'
-                }).then(function(){
-                    // 用户点击swal上的按钮刷新页面
-                    location.reload()
-                })
-            })
-        })
-
+                }).then(function() {
+                    // 用户点击 swal 上的按钮时刷新页面
+                    location.reload();
+                });
+            });
+        });
         // 同意 按钮的点击事件
         $('#btn-refund-agree').click(function() {
             swal({
@@ -193,5 +188,5 @@
                 });
             });
         });
-    })
+    });
 </script>
