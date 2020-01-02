@@ -13,7 +13,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductsController extends Controller
 {
-    /*public function index(Request $request)
+    public function index(Request $request)
     {
         // 创建一个查询构造器
         $builder = Product::query()->where('on_sale', true);
@@ -68,9 +68,9 @@ class ProductsController extends Controller
             ],
             'category' => $category ?? null,
         ]);
-    }*/
+    }
 
-    public function index(Request $request)
+    /*public function index(Request $request)
     {
         $page    = $request->input('page', 1);
         $perPage = 16;
@@ -125,7 +125,7 @@ class ProductsController extends Controller
             ],
             'category' => null,
         ]);
-    }
+    }*/
 
     public function show(Product $product, Request $request)
     {
