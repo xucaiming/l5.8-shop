@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Encore\Admin\Controllers\HasResourceActions;
 use Encore\Admin\Layout\Content;
+use App\Jobs\SyncOneProductToES;
 
 abstract class CommonProductsController extends Controller
 {
@@ -97,6 +98,11 @@ abstract class CommonProductsController extends Controller
         $form->hasMany('properties', '商品属性', function (Form\NestedForm $form) {
             $form->text('name', '属性名')->rules('required');
             $form->text('value', '属性值')->rules('required');
+        });
+
+        $form->saved(function(Form $form){
+            $product = $form->model();
+            $this->dispatch(new SyncOneProductToES($product));
         });
 
         return $form;

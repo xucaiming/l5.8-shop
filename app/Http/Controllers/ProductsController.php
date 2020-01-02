@@ -9,9 +9,11 @@ use App\Models\Product;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
+use Illuminate\Pagination\LengthAwarePaginator;
+
 class ProductsController extends Controller
 {
-    public function index(Request $request)
+    /*public function index(Request $request)
     {
         // 创建一个查询构造器
         $builder = Product::query()->where('on_sale', true);
@@ -65,6 +67,63 @@ class ProductsController extends Controller
                 'order' => $order,
             ],
             'category' => $category ?? null,
+        ]);
+    }*/
+
+    public function index(Request $request)
+    {
+        $page    = $request->input('page', 1);
+        $perPage = 16;
+
+        // 构建查询
+        $params = [
+            'index' => 'products',
+            'body'  => [
+                'from'  => ($page - 1) * $perPage, // 通过当前页数与每页数量计算偏移值
+                'size'  => $perPage,
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            ['term' => ['on_sale' => true]],
+                        ],
+                    ],
+                ],
+            ],
+        ];
+
+        // 是否有提交 order 参数，如果有就赋值给 $order 变量
+        // order 参数用来控制商品的排序规则
+        if ($order = $request->input('order', '')) {
+            // 是否是以 _asc 或者 _desc 结尾
+            if (preg_match('/^(.+)_(asc|desc)$/', $order, $m)) {
+                // 如果字符串的开头是这 3 个字符串之一，说明是一个合法的排序值
+                if (in_array($m[1], ['price', 'sold_count', 'rating'])) {
+                    // 根据传入的排序值来构造排序参数
+                    $params['body']['sort'] = [[$m[1] => $m[2]]];
+                }
+            }
+        }
+
+        $result = app('es')->search($params);
+
+        // 通过 collect 函数将返回结果转为集合，并通过集合的 pluck 方法取到返回的商品 ID 数组
+        $productIds = collect($result['hits']['hits'])->pluck('_id')->all();
+        // 通过 whereIn 方法从数据库中读取商品数据
+        $products = Product::query()
+            ->whereIn('id', $productIds)
+            ->get();
+        // 返回一个 LengthAwarePaginator 对象
+        $pager = new LengthAwarePaginator($products, $result['hits']['total']['value'], $perPage, $page, [
+            'path' => route('products.index', false), // 手动构建分页的 url
+        ]);
+
+        return view('products.index', [
+            'products' => $pager,
+            'filters'  => [
+                'search' => '',
+                'order'  => $order,
+            ],
+            'category' => null,
         ]);
     }
 
